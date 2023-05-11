@@ -1,27 +1,17 @@
-# FastAPI + React · ![build](https://github.com/Buuntu/fastapi-react/workflows/build/badge.svg) [![license](https://img.shields.io/github/license/peaceiris/actions-gh-pages.svg)](LICENSE) [![Dependabot Status](https://img.shields.io/badge/Dependabot-active-brightgreen.svg)](https://dependabot.com)
 
-<div>
-<img src="assets/fastapi-logo.png" alt="fastapi-logo" height="60" /> <img
-src="assets/react-logo.png" alt="react-logo" height="60" /> &nbsp; &nbsp; <img
-src="assets/react-admin.png" alt="react-admin" height="60" /> &nbsp; &nbsp; <img
-src="assets/typescript.png" alt="react-logo" height="60" /> &nbsp;&nbsp;&nbsp;
-<img src="assets/postgres.png" alt="react-logo" height="60" /> <img
-src="assets/sql-alchemy.png" alt="sql-alchemy" height="60" />
-</div>
 
-A cookiecutter template for bootstrapping a FastAPI and React project using a
+# FastAPI ![build](https://github.com/Buuntu/fastapi-react/workflows/build/badge.svg) [![license](https://img.shields.io/github/license/peaceiris/actions-gh-pages.svg)](LICENSE) [![Dependabot Status](https://img.shields.io/badge/Dependabot-active-brightgreen.svg)](https://dependabot.com)
+
+
+A cookiecutter template for bootstrapping a FastAPI project using a
 modern stack.
-
 ---
-
 ## Features
 
 - **[FastAPI](https://fastapi.tiangolo.com/)** (Python 3.8)
   - JWT authentication using [OAuth2 "password
     flow"](https://fastapi.tiangolo.com/tutorial/security/simple-oauth2/) and
     PyJWT
-- **[React](https://reactjs.org/)** (with Typescript)
-  - [react-router v5](https://reacttraining.com/react-router/) to handle routing
   - [Utility functions](#Frontend-Utilities) and [higher-order
     components](#Higher-Order-Components) for handling authentication
 - **[PostgreSQL](https://www.postgresql.org/)** for the database
@@ -40,10 +30,6 @@ modern stack.
 - **[Docker Compose](https://docs.docker.com/compose/)** for development
 - **[Nginx](https://www.nginx.com/)** as a reverse proxy to allow
   backend/frontend on the same port
-- **[MaterialUI](https://material-ui.com/)** using recommended
-  [CSS-in-JS](https://material-ui.com/styles/basics/) styling.
-- **[react-admin](https://github.com/marmelab/react-admin)** for the admin
-  dashboard
   - Using the same token based authentication as FastAPI backend (JWT)
 
 ## Table of Contents
@@ -63,14 +49,6 @@ modern stack.
     - [superuser_token_headers](#superuser_token_headers)
 - [Background Tasks](#background-tasks)
   - [Flower](#flower)
-- [Frontend Utilities](#frontend-utilities)
-  - [Utility Functions](#utility-functions)
-    - [login](#login)
-    - [logout](#logout)
-    - [isAuthenticated](#isauthenticated)
-  - [Routes](#routes)
-  - [Higher Order Components](#higher-order-components)
-    - [PrivateRoute](#privateroute)
 - [Deployment](#deployment)
 - [Contributing](#contributing)
 
@@ -79,15 +57,6 @@ modern stack.
 It is often laborsome to start a new project. 90% of the time you have to decide
 how to handle authentication, reverse proxies, docker containers, testing,
 server-side validation, linting, etc. before you can even get started.
-
-**FastAPI-React** serves to streamline and give you that functionality out of
-the box.
-
-It is meant as a lightweight/React alternative to [FastAPI's official fullstack
-project](https://github.com/tiangolo/full-stack-fastapi-postgresql). If you want
-a more comprehensive project in Vue, I would suggest you start there. A lot of
-the backend code is taken from that project or the [FastAPI official
-docs](https://fastapi.tiangolo.com/).
 
 ## Quick Start
 
@@ -105,7 +74,7 @@ docs](https://docs.docker.com/compose/install/).
 Then, in the directory you want your project to live:
 
 ```bash
-cookiecutter gh:Buuntu/fastapi-react
+cookiecutter <path_to_the_fastapi_boilerplate_repo>
 ```
 
 You will need to put in a few variables and it will create a project directory
@@ -113,13 +82,10 @@ You will need to put in a few variables and it will create a project directory
 
 <details><summary>Input Variables</summary>
 
-- project_name [default fastapi-react-project]
-- project_slug [default fastapi-react-project] - this is your project directory
 - port [default 8000]
 - postgres_user [default postgres]
 - postgres_password [default password]
 - postgres_database [default app]
-- superuser_email [default admin@fastapi-react-project.com]
 - superuser_password [default password]
 - secret_key [default super_secret]
 
@@ -148,11 +114,6 @@ containers:
 docker-compose up -d
 ```
 
-Once this finishes you can navigate to the port set during setup (default is
-`localhost:8000`), you should see the slightly modified create-react-app page:
-
-![default create-react-app](assets/create-react-app.png)
-
 _Note: If you see an Nginx error at first with a `502: Bad Gateway` page, you
 may have to wait for webpack to build the development server (the nginx
 container builds much more quickly)._
@@ -164,25 +125,11 @@ Docs](assets/api-docs.png)
 
 ## Admin Dashboard
 
-This project uses [react-admin](https://marmelab.com/react-admin/) for a highly
-configurable admin dashboard.
-
 After starting the project, navigate to `http://localhost:8000/admin`. You
 should see a login screen. Use the username/password you set for the superuser
 on project setup.
 
 _NOTE: regular users will not be able to access the admin dashboard_
-
-![React Adming Login](assets/login-screen.png)
-
-You should now see a list of users which you can edit, add, and delete. The
-table is configured with the REST endpoints to the FastAPI `/users` routes in
-the backend.
-
-![React Admin Dashboard](assets/admin-dashboard.png)
-
-The admin dashboard is kept in the `frontend/src/admin` directory to keep it
-separate from the regular frontend.
 
 ## Security
 
@@ -345,26 +292,6 @@ Some basic routes are included (and handled in `frontend/Routes.tsx`).
 ### Higher Order Components
 
 #### PrivateRoute
-
-This handles routes that require authentication. It will automatically check
-whether the correct token with the "user" permissions is present or redirect to
-the home page.
-
-```JSX
-// in src/Routes.tsx
-import { Switch } from 'react-router-dom';
-
-// Replace this with your component
-import { ProtectedComponent } from 'components';
-
-const Routes = () => (
-  <Switch>
-    <PrivateRoute path="/protected_route" component={ProtectedComponent} />
-  </Switch>
-);
-```
-
-</details>
 
 ## Deployment
 
