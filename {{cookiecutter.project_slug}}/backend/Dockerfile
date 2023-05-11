@@ -27,3 +27,4 @@ WORKDIR /home/appuser
 USER appuser
 
 COPY . .
+# Continue...
