@@ -13,13 +13,6 @@ services:
       - frontend
   {% endif %}
 
-  {% if cookiecutter.redis == 'yes' %}
-  redis:
-    image: redis
-    ports:
-      - {{cookiecutter.redis_port}}:6379
-  {% endif %}
-
   postgres:
     image: postgres:12
     restart: always
@@ -32,6 +25,11 @@ services:
       - db-data:/var/lib/postgresql/data:cached
 
   {% if cookiecutter.worker == 'yes' %}
+  redis:
+    image: redis
+    ports:
+      - {{cookiecutter.redis_port}}:6379
+
   worker:
     build:
       context: backend
@@ -40,9 +38,9 @@ services:
 
   flower:
     image: mher/flower
-    command: celery flower --broker=redis://redis:6379/0 --port=5555
+    command: celery flower --broker=redis://redis:{{cookiecutter.redis_port}}/0 --port={{cookiecutter.celery_port}}
     ports:
-        - 5555:5555
+        - {{cookiecutter.celery_port}}:5555
     depends_on:
       - "redis"
   {% endif %}

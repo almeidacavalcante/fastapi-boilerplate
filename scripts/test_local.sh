@@ -7,8 +7,8 @@ set -e
 cd ..
 
 # Generate local cookiecutter project, bring up in docker and test
-./fastapi-react/scripts/dev-project.sh
-cd dev-fastapi-react
+./fastapi-boilerplate/scripts/dev-project.sh
+cd dev-fastapi-boilerplate
 docker-compose down -v --remove-orphans
 ./scripts/build.sh
 ./scripts/test.sh
